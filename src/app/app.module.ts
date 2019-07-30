@@ -13,6 +13,7 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
@@ -20,6 +21,8 @@ import { environment } from '../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
 import { appReducers } from './app.reducer';
+import { OrdenIngresoEgresoPipe } from './ingreso-egreso/orden-ingreso-egreso.pipe';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,8 @@ import { appReducers } from './app.reducer';
     DetalleComponent,
     FooterComponent,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    OrdenIngresoEgresoPipe
   ],
   imports: [
     BrowserModule,
@@ -45,7 +49,9 @@ import { appReducers } from './app.reducer';
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production
-    })
+    }),
+    ReactiveFormsModule,
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

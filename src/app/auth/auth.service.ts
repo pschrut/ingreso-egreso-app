@@ -17,6 +17,7 @@ import { Subscription } from 'rxjs';
 export class AuthService {
 
   private userSubscription: Subscription = new Subscription();
+  private usuario: UserModel;
 
   constructor(private afAuth: AngularFireAuth, private router: Router, private afDB: AngularFirestore, private store: Store<AppState>) { }
 
@@ -24,11 +25,12 @@ export class AuthService {
     this.afAuth.authState.subscribe((fbUser: User) => {
       if (fbUser) {
         this.userSubscription = this.afDB.doc(`${fbUser.uid}/usuario`).valueChanges().subscribe((usuarioObj: any) => {
-          console.log(usuarioObj);
           const newUser = new UserModel(usuarioObj);
           this.store.dispatch(new SetUserAction(newUser));
+          this.usuario = newUser;
         });
       } else {
+        this.usuario = null;
         this.userSubscription.unsubscribe();
       }
     });
@@ -75,7 +77,11 @@ export class AuthService {
         this.router.navigate(['/login']);
       }
 
-      return fbUser != null
+      return fbUser != null;
     }));
+  }
+
+  getUsuario() {
+    return {...this.usuario};
   }
 }
